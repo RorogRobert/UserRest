@@ -44,16 +44,26 @@ class User implements UserInterface
      */
     private $apiToken;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -61,6 +71,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param string $username
+     * @return $this
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -68,6 +82,9 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername(): string
     {
         return (string) $this->username;
@@ -83,6 +100,10 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

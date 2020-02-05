@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -75,6 +74,7 @@ class RestUserController extends AbstractController
      * @Route("/{id}", methods={"DELETE"}, name="user_delete")
      *
      * @param int $id
+     * @param UserService $service
      * @param UserRepository $repository
      * @return JsonResponse
      */

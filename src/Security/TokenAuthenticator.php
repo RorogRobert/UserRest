@@ -1,6 +1,5 @@
 <?php
 
-// src/Security/TokenAuthenticator.php
 namespace App\Security;
 
 use App\Entity\User;
@@ -34,8 +33,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      * Called on every request to decide if this authenticator should be
      * used for the request. Returning false will cause this authenticator
      * to be skipped.
+     *
+     * @param Request $request
+     * @return bool
      */
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
         return $request->headers->has('X-AUTH-TOKEN');
     }
@@ -43,14 +45,22 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     /**
      * Called on every request. Return whatever credentials you want to
      * be passed to getUser() as $credentials.
+     *
+     * @param Request $request
+     * @return array|mixed
      */
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): array
     {
         return [
             'token' => $request->headers->get('X-AUTH-TOKEN'),
         ];
     }
 
+    /**
+     * @param mixed $credentials
+     * @param UserProviderInterface $userProvider
+     * @return object|UserInterface|void|null
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $apiToken = $credentials['token'];
@@ -64,7 +74,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             ->findOneBy(['apiToken' => $apiToken]);
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    /**
+     * @param mixed $credentials
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         // check credentials - e.g. make sure the password is valid
         // no credential check is needed in this case
@@ -73,13 +88,24 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return true;
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    /**
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param string $providerKey
+     * @return Response|null
+     */
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
         // on success, let the request continue
         return null;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    /**
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return JsonResponse
+     */
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse
     {
         $data = [
             'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
@@ -93,8 +119,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * Called when authentication is needed, but it's not sent
+     *
+     * @param Request $request
+     * @param AuthenticationException|null $authException
+     * @return JsonResponse
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): JsonResponse
     {
         $data = [
             // you might translate this message
@@ -104,7 +134,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
-    public function supportsRememberMe()
+    /**
+     * @return bool
+     */
+    public function supportsRememberMe(): bool
     {
         return false;
     }
