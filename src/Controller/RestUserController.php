@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,17 +19,29 @@ class RestUserController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function show(User $id): JsonResponse
+    public function show(int $id): JsonResponse
     {
+        $response = new JsonResponse();
+        $response->setStatusCode('200', 'OK');
+
+        return $response;
     }
 
     /**
      * @Route("/create", methods={"POST"}, name="user_create")
      *
+     * @param Request $request
+     * @param UserService $userService
      * @return JsonResponse
      */
-    public function create(Request $request): JsonResponse
+    public function create(Request $request, UserService $userService): JsonResponse
     {
+        $userService->create($request);
+
+        $response = new JsonResponse();
+        $response->setStatusCode('200', 'OK');
+
+        return $response;
     }
 
     /**
