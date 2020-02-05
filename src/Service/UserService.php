@@ -55,6 +55,8 @@ class UserService
         $password = $this->passwordEncoder->encodePassword($user, $data['password']);
         $user->setEmail($data['email']);
         $user->setUsername($data['username']);
+        $user->setApiToken($data['api_token']);
+        $user->setRoles(['ROLE_USER']);
         $user->setPassword($password);
         $this->em->persist($user);
         $this->em->flush();
