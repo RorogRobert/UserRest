@@ -44,6 +44,7 @@ class UserService
         $user->setUsername($data['username']);
         $user->setPassword($password);
         $this->em->persist($user);
+        $this->em->flush();
 
         return $user;
     }
