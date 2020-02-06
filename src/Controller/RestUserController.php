@@ -10,12 +10,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/rest/user", name="rest_")
+ * @Route("/rest/user", name="rest_user_")
  */
 class RestUserController extends AbstractController
 {
     /**
-     * @Route("/{id}", methods={"GET"}, name="user_show")
+     * @Route("/{id}", methods={"GET"}, name="show")
      *
      * @param int $id
      * @param UserService $service
@@ -34,7 +34,7 @@ class RestUserController extends AbstractController
     }
 
     /**
-     * @Route("/create", methods={"POST"}, name="user_create")
+     * @Route("/create", methods={"POST"}, name="create")
      *
      * @param Request $request
      * @param UserService $service
@@ -51,7 +51,7 @@ class RestUserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"PUT"}, name="user_update")
+     * @Route("/{id}", methods={"PUT"}, name="update")
      *
      * @param int $id
      * @param Request $request
@@ -71,7 +71,7 @@ class RestUserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"DELETE"}, name="user_delete")
+     * @Route("/{id}", methods={"DELETE"}, name="delete")
      *
      * @param int $id
      * @param UserService $service
